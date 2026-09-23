@@ -38,8 +38,7 @@ class NXMPRenderer {
 		constexpr static auto CMDBUF_SIZE  = 0x10000;
 		unsigned int s_width  = 1920;
 		unsigned int s_height = 1080;
-		constexpr static auto MaxNumDescriptors  = 64;  
-		
+		constexpr static auto MaxNumDescriptors  = 256;  
 		
 		constexpr auto align_down(auto v, auto a) {
 			return v & ~(a - 1);
@@ -147,7 +146,7 @@ class NXMPRenderer {
 		dk::UniqueSwapchain    s_swapchain;
 		
 		
-		std::array<std::uint64_t, 2> allocated_descriptors = {};
+		std::array<std::uint64_t, 4> allocated_descriptors = {};
 		
 		
 		int imageSlot = 0;

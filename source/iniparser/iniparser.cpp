@@ -549,6 +549,13 @@ std::string CIniParser::getStartPath(){
 	return nxmpconfig.startpath;
 }
 
+void CIniParser::setStartPath(std::string path){
+	nxmpconfig.startpath = path;
+	nxmptmpconfig.startpath = path;
+	isModified = true;
+	saveSettings();
+}
+
 std::string CIniParser::getEnigma(){
 	return nxmpconfig.e2addr;
 	

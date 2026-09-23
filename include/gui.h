@@ -49,6 +49,9 @@
 #include "nxmp-render.h"
 
 #include "touchcontrols.h"
+#include "netflixUI.h"
+#include "folderPicker.h"
+#include "localLibrary.h"
 
 #include "logger.h"
 
@@ -102,6 +105,8 @@
 
 enum MENU_STATES {
 	MENU_STATE_HOME,
+	MENU_STATE_NETFLIX,
+	MENU_STATE_FOLDER_PICKER,
     MENU_STATE_FILEBROWSER,
 	MENU_STATE_USB_MOUNT,
 	MENU_STATE_USB_BROWSER,
@@ -178,9 +183,9 @@ enum PLAYER_CONTROL_STATES {
 
 
 typedef struct {
-    MENU_STATES state = MENU_STATE_HOME;
-	MENU_STATES laststate = MENU_STATE_FILEBROWSER;
-	MENU_STATES savestate = MENU_STATE_FILEBROWSER;
+    MENU_STATES state = MENU_STATE_NETFLIX;
+	MENU_STATES laststate = MENU_STATE_NETFLIX;
+	MENU_STATES savestate = MENU_STATE_NETFLIX;
 	FILE_SELECTION_STATES selectionstate = FILE_SELECTION_NONE;
 	PLAYER_RIGHT_MENU_STATES rightmenustate = PLAYER_RIGHT_MENU_PLAYER;
 	PLAYER_STATES playerstate = PLAYER_STATE_VIDEO;

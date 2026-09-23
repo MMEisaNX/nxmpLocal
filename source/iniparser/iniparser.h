@@ -74,6 +74,7 @@ public:
 	std::vector<oldnetworkSource> getNetworks();
 	std::string getEnigma();
 	std::string getStartPath();
+	void setStartPath(std::string path);
 	
 	
 	std::vector<networkstruct_v2> networks_v2;

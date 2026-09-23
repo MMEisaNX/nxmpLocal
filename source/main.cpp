@@ -413,6 +413,10 @@ int main(int argc, const  char **argv) {
 	
 	
 	NXLOG::DEBUGLOG("STATS INIT OK\n");
+	if (filebrowser == nullptr) {
+		filebrowser = new CFileBrowser(configini->getStartPath(), playlist);
+	}
+	Windows::InitNetflixUI();
 	GUI::RenderLoop();
 	
 	
@@ -426,6 +430,12 @@ int main(int argc, const  char **argv) {
 
 	__nx_applet_exit_mode = app_exit_mode;
 	
+	if(localLibManager != nullptr){
+		localLibManager->releaseAllTextures(Renderer);
+		delete localLibManager;
+		localLibManager = nullptr;
+	}
+
 	if(imgloader != nullptr){
 		delete imgloader;
 		imgloader = nullptr;

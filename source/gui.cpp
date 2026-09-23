@@ -606,11 +606,14 @@ namespace GUI {
 							if(configini->Modified()){
 								item.popupstate = POPUP_STATE_SAVE_SETTINGS;
 							}else{
-								item.state = MENU_STATE_HOME;
+								item.state = MENU_STATE_NETFLIX;
 							}
 						}
+					}else if(item.state == MENU_STATE_NETFLIX){
+						Windows::InitFolderPicker(configini->getStartPath());
+						item.state = MENU_STATE_FOLDER_PICKER;
 					}else{
-						item.state = MENU_STATE_HOME;
+						item.state = MENU_STATE_NETFLIX;
 					}
 							
 				}
@@ -683,7 +686,9 @@ namespace GUI {
 			}
 			if (is_bit_set(event_ret,BUT_B)){
 				
-					if(item.state == MENU_STATE_IMGVIEWER){
+					if(item.state == MENU_STATE_FOLDER_PICKER){
+						item.state = MENU_STATE_NETFLIX;
+					}else if(item.state == MENU_STATE_IMGVIEWER){
 						item.state = item.laststate;
 					}else if(item.state == MENU_STATE_PDFVIEWER){
 						item.state = item.laststate;
@@ -1017,6 +1022,17 @@ namespace GUI {
 		
 			switch (item.state) {
 				case MENU_STATE_GUILESS:
+				case MENU_STATE_NETFLIX:
+					Windows::NetflixUIWindow(&item.focus, &item.first_item);
+					if(item.popupstate == POPUP_STATE_RESUME){
+						Popups::ResumePopup();
+					}
+					if(item.popupstate == POPUP_STATE_APPLETMODE_WARNING){
+						Popups::AppletModeWarningPopup();
+					}
+					break;
+				case MENU_STATE_FOLDER_PICKER:
+					Windows::FolderPickerWindow(&item.focus, &item.first_item);
 					break;
 				case MENU_STATE_HOME:
 					Windows::MainMenuWindow(&item.focus, &item.first_item);

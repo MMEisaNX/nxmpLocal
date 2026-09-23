@@ -123,11 +123,12 @@ void NXMPRenderer::destroy_mpv_render_context() {
 
 int NXMPRenderer::find_descriptor_slot() {
     int slot = -1;
-    for (auto &pos: this->allocated_descriptors) {
-        if (pos == -1ull)
+    for (size_t i = 0; i < this->allocated_descriptors.size(); i++) {
+        if (this->allocated_descriptors[i] == -1ull)
             continue;
-        slot = __builtin_ctzll(~pos);
-        pos |= (1ull << slot);
+        int bit = __builtin_ctzll(~this->allocated_descriptors[i]);
+        this->allocated_descriptors[i] |= (1ull << bit);
+        slot = static_cast<int>(i * 64 + bit);
         break;
     }
     return slot;
@@ -332,7 +333,7 @@ int NXMPRenderer::initialize() {
 
 	s_cmdBuf.bindSamplerDescriptorSet(s_descriptorMemBlock.getGpuAddr(), NXMPRenderer::MaxNumDescriptors);
     s_cmdBuf.bindImageDescriptorSet(
-        s_descriptorMemBlock.getGpuAddr() + 64 * sizeof(dk::SamplerDescriptor),
+        s_descriptorMemBlock.getGpuAddr() + NXMPRenderer::MaxNumDescriptors * sizeof(dk::SamplerDescriptor),
          NXMPRenderer::MaxNumDescriptors);
     s_queue.submitCommands(s_cmdBuf.finishList());
     
