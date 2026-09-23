@@ -46,13 +46,11 @@ jobs:
               switch-freetype \
               switch-libwebp \
               switch-libssh2 \
-              switch-lwext4 \
-              unzip \
-              zip
+              switch-lwext4
 
             echo "=== Downloading pre-compiled portlibs ==="
             curl -L -o /tmp/portlibs.zip https://github.com/proconsule/nxmp-portlibs/releases/download/v1.0.0/nxmp.nightly.portibs.zip
-            unzip -o /tmp/portlibs.zip -d /opt/devkitpro/portlibs/
+            python3 -c "import zipfile; zipfile.ZipFile('/tmp/portlibs.zip').extractall('/opt/devkitpro/portlibs/')" || (apt-get update && apt-get install -y unzip && unzip -o /tmp/portlibs.zip -d /opt/devkitpro/portlibs/)
             rm -f /tmp/portlibs.zip
 
             echo "=== Building NXMP ==="
